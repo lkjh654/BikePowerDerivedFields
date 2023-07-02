@@ -1,7 +1,7 @@
 <strings>
     <string id="AppName">BikePowerDerivedFields</string>
     <string id="speed">Speed</string>
-	<string id="unit_mps">m/s</string>
+	<string id="unit_kmph">km/h</string>
     <string id="distance">Distance</string>
-	<string id="unit_m">m</string>
+	<string id="unit_km">km</string>
 </strings>

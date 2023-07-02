@@ -4,6 +4,7 @@ import Toybox.Time;
 import Toybox.WatchUi;
 import Toybox.FitContributor;
 import Toybox.System;
+import Toybox.UserProfile;
 
 const SPEED_RECORD_ID = 0;
 const DISTANCE_RECORD_ID = 1;
@@ -14,8 +15,8 @@ const SPEED_NATIVE_NUM_RECORD_MESG = 6;
 
 const TOTAL_DISTANCE_NATIVE_NUM_SESSION_MESG = 9;
 
-const DISTANCE_UNITS = "m";
-const SPEED_UNITS = "m/s";
+const DISTANCE_UNITS = "km";
+const SPEED_UNITS = "km/h";
 
 class BikePowerDerivedFieldsView extends WatchUi.SimpleDataField {
 
@@ -27,11 +28,11 @@ class BikePowerDerivedFieldsView extends WatchUi.SimpleDataField {
     private var Vhw = 0.0; // Speed of headwind [m/s]
     private var b = Vhw * Cd * A * Rho;
 
-    private var W = 80.0; // Total weight W (kg)
+    private var bikeW = 10.0; // Bike weight (kg)
+    private var W = 0.0; // Total weight W (kg)
     private var G = 0.0; // Percent grade of hill G (negative for downhill) (%)
     private var Crr = 0.005; // Coefficient of rolling resistance Crr
-    private var c = (9.8067 * W * (Math.sin(Math.atan(G/100.0)) + Crr * Math.cos(Math.atan(G/100.0)))) + (0.5 * Cd * A * Rho * Vhw * Vhw);
-
+    private var c;
     private var Lossdt = 2.0; // Drivetrain loss Lossdt (%)
 
     private var distance = 0.0;
@@ -47,9 +48,18 @@ class BikePowerDerivedFieldsView extends WatchUi.SimpleDataField {
     function initialize() {
         SimpleDataField.initialize();
         label = "Dst | Spd";
-        distanceField = createField("distance", DISTANCE_RECORD_ID, FitContributor.DATA_TYPE_UINT32, { :nativeNum=>DISTANCE_NATIVE_NUM_RECORD_MESG, :mesgType=>FitContributor.MESG_TYPE_RECORD, :units=>DISTANCE_UNITS });
-        totalDistanceField = createField("total_distance", TOTAL_DISTANCE_SESSION_ID, FitContributor.DATA_TYPE_UINT32, { :nativeNum=>TOTAL_DISTANCE_NATIVE_NUM_SESSION_MESG, :mesgType=>FitContributor.MESG_TYPE_SESSION, :units=>DISTANCE_UNITS });
-        speedField = createField("speed", SPEED_RECORD_ID, FitContributor.DATA_TYPE_UINT16, { :nativeNum=>SPEED_NATIVE_NUM_RECORD_MESG, :mesgType=>FitContributor.MESG_TYPE_RECORD, :units=>SPEED_UNITS });
+        var userWeightInG = UserProfile.getProfile().weight;
+        var userWeightInKg = 0.0;
+        if (userWeightInG == null || userWeightInG == 0) {
+            userWeightInKg = 70;
+        } else {
+            userWeightInKg = userWeightInG / 1000.0;
+        }
+        W = bikeW + userWeightInKg;
+        c = (9.8067 * W * (Math.sin(Math.atan(G/100.0)) + Crr * Math.cos(Math.atan(G/100.0)))) + (0.5 * Cd * A * Rho * Vhw * Vhw);
+        distanceField = createField("derived_distance", DISTANCE_RECORD_ID, FitContributor.DATA_TYPE_FLOAT, { :nativeNum=>DISTANCE_NATIVE_NUM_RECORD_MESG, :mesgType=>FitContributor.MESG_TYPE_RECORD, :units=>DISTANCE_UNITS });
+        totalDistanceField = createField("derived_total_distance", TOTAL_DISTANCE_SESSION_ID, FitContributor.DATA_TYPE_FLOAT, { :nativeNum=>TOTAL_DISTANCE_NATIVE_NUM_SESSION_MESG, :mesgType=>FitContributor.MESG_TYPE_SESSION, :units=>DISTANCE_UNITS });
+        speedField = createField("derived_speed", SPEED_RECORD_ID, FitContributor.DATA_TYPE_FLOAT, { :nativeNum=>SPEED_NATIVE_NUM_RECORD_MESG, :mesgType=>FitContributor.MESG_TYPE_RECORD, :units=>SPEED_UNITS });
     }
 
     // The given info object contains all the current workout
@@ -58,6 +68,8 @@ class BikePowerDerivedFieldsView extends WatchUi.SimpleDataField {
     // guarantee that compute() will be called before onUpdate().
     function compute(info as Activity.Info) as Numeric or Duration or String or Null {
         var formattedSpeed = "-";
+
+        info.currentPower = 150;
 
         if (info has :currentPower && timerRunning) {
             if (info.currentPower != null) {
@@ -69,9 +81,11 @@ class BikePowerDerivedFieldsView extends WatchUi.SimpleDataField {
                     var distanceDelta = averageSpeed * timeDeltaInSeconds;
                     distance = distance + distanceDelta;
 
-                    speedField.setData(currentSpeed.toNumber());
+                    var speedInKmph = convertMpsToKmph(currentSpeed);
 
-                    formattedSpeed = convertMpsToKmph(currentSpeed).format("%.2f");
+                    speedField.setData(speedInKmph);
+
+                    formattedSpeed = speedInKmph.format("%.2f");
 
                     lastUpdateMs = currentTime;
                     lastSpeed = currentSpeed;
@@ -79,10 +93,12 @@ class BikePowerDerivedFieldsView extends WatchUi.SimpleDataField {
             }
         }
 
-        distanceField.setData(distance.toNumber());
-        totalDistanceField.setData(distance.toNumber());
+        var distanceInKm = convertMtoKm(distance);
 
-        var formattedDistance = convertMtoKm(distance).format("%.2f");
+        distanceField.setData(distanceInKm);
+        totalDistanceField.setData(distanceInKm);
+
+        var formattedDistance = distanceInKm.format("%.2f");
 
         return formattedDistance + " | " + formattedSpeed; 
     }
