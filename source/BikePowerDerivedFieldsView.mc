@@ -69,7 +69,6 @@ class BikePowerDerivedFieldsView extends WatchUi.SimpleDataField {
     function compute(info as Activity.Info) as Numeric or Duration or String or Null {
         var formattedSpeed = "-";
 
-        info.currentPower = 150;
 
         if (info has :currentPower && timerRunning) {
             if (info.currentPower != null) {
