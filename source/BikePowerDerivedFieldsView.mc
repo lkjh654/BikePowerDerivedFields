@@ -16,6 +16,7 @@ const SPEED_NATIVE_NUM_RECORD_MESG = 6;
 const TOTAL_DISTANCE_NATIVE_NUM_SESSION_MESG = 9;
 
 const DISTANCE_UNITS = "km";
+const TOTAL_DISTANCE_UNITS = "m";
 const SPEED_UNITS = "km/h";
 
 class BikePowerDerivedFieldsView extends WatchUi.SimpleDataField {
@@ -58,7 +59,7 @@ class BikePowerDerivedFieldsView extends WatchUi.SimpleDataField {
         W = bikeW + userWeightInKg;
         c = (9.8067 * W * (Math.sin(Math.atan(G/100.0)) + Crr * Math.cos(Math.atan(G/100.0)))) + (0.5 * Cd * A * Rho * Vhw * Vhw);
         distanceField = createField("derived_distance", DISTANCE_RECORD_ID, FitContributor.DATA_TYPE_FLOAT, { :nativeNum=>DISTANCE_NATIVE_NUM_RECORD_MESG, :mesgType=>FitContributor.MESG_TYPE_RECORD, :units=>DISTANCE_UNITS });
-        totalDistanceField = createField("derived_total_distance", TOTAL_DISTANCE_SESSION_ID, FitContributor.DATA_TYPE_FLOAT, { :nativeNum=>TOTAL_DISTANCE_NATIVE_NUM_SESSION_MESG, :mesgType=>FitContributor.MESG_TYPE_SESSION, :units=>DISTANCE_UNITS });
+        totalDistanceField = createField("derived_total_distance", TOTAL_DISTANCE_SESSION_ID, FitContributor.DATA_TYPE_UINT32, { :nativeNum=>TOTAL_DISTANCE_NATIVE_NUM_SESSION_MESG, :mesgType=>FitContributor.MESG_TYPE_SESSION, :units=>TOTAL_DISTANCE_UNITS });
         speedField = createField("derived_speed", SPEED_RECORD_ID, FitContributor.DATA_TYPE_FLOAT, { :nativeNum=>SPEED_NATIVE_NUM_RECORD_MESG, :mesgType=>FitContributor.MESG_TYPE_RECORD, :units=>SPEED_UNITS });
     }
 
@@ -95,7 +96,7 @@ class BikePowerDerivedFieldsView extends WatchUi.SimpleDataField {
         var distanceInKm = convertMtoKm(distance);
 
         distanceField.setData(distanceInKm);
-        totalDistanceField.setData(distanceInKm);
+        totalDistanceField.setData(distance.toNumber());
 
         var formattedDistance = distanceInKm.format("%.2f");
 
