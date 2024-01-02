@@ -5,7 +5,7 @@
         Use "Monkey C: Edit Application" from the Visual Studio Code command palette
         to update the application attributes.
     -->
-    <iq:application id="6788551e-2bc7-11ee-be56-0242ac120002" type="datafield" name="@Strings.AppName" entry="BikePowerDerivedFieldsApp" launcherIcon="@Drawables.LauncherIcon" version="1.0.4" minApiLevel="1.2.0">
+    <iq:application id="6788551e-2bc7-11ee-be56-0242ac120002" type="datafield" name="@Strings.AppName" entry="BikePowerDerivedFieldsApp" launcherIcon="@Drawables.LauncherIcon" version="1.0.5" minApiLevel="1.2.0">
         <!--
             Use the following from the Visual Studio Code comand palette to edit
             the build targets:
@@ -31,6 +31,24 @@
             <iq:product id="descentmk1"/>
             <iq:product id="descentmk2"/>
             <iq:product id="descentmk2s"/>
+            <iq:product id="descentmk343mm"/>
+            <iq:product id="descentmk351mm"/>
+            <iq:product id="edge1030"/>
+            <iq:product id="edge1030bontrager"/>
+            <iq:product id="edge1030plus"/>
+            <iq:product id="edge1040"/>
+            <iq:product id="edge130"/>
+            <iq:product id="edge130plus"/>
+            <iq:product id="edge520plus"/>
+            <iq:product id="edge530"/>
+            <iq:product id="edge540"/>
+            <iq:product id="edge820"/>
+            <iq:product id="edge830"/>
+            <iq:product id="edge840"/>
+            <iq:product id="edge_1000"/>
+            <iq:product id="edge_520"/>
+            <iq:product id="edgeexplore"/>
+            <iq:product id="edgeexplore2"/>
             <iq:product id="enduro"/>
             <iq:product id="epix"/>
             <iq:product id="epix2"/>
@@ -52,10 +70,12 @@
             <iq:product id="fenix6xpro"/>
             <iq:product id="fenix7"/>
             <iq:product id="fenix7pro"/>
+            <iq:product id="fenix7pronowifi"/>
             <iq:product id="fenix7s"/>
             <iq:product id="fenix7spro"/>
             <iq:product id="fenix7x"/>
             <iq:product id="fenix7xpro"/>
+            <iq:product id="fenix7xpronowifi"/>
             <iq:product id="fenixchronos"/>
             <iq:product id="fr230"/>
             <iq:product id="fr235"/>
@@ -101,6 +121,8 @@
             <iq:product id="venu2"/>
             <iq:product id="venu2plus"/>
             <iq:product id="venu2s"/>
+            <iq:product id="venu3"/>
+            <iq:product id="venu3s"/>
             <iq:product id="venud"/>
             <iq:product id="venusq"/>
             <iq:product id="venusq2"/>
@@ -113,6 +135,7 @@
             <iq:product id="vivoactive3mlte"/>
             <iq:product id="vivoactive4"/>
             <iq:product id="vivoactive4s"/>
+            <iq:product id="vivoactive5"/>
             <iq:product id="vivoactive_hr"/>
         </iq:products>
         <!--
