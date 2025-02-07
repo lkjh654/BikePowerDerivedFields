@@ -5,7 +5,7 @@
         Use "Monkey C: Edit Application" from the Visual Studio Code command palette
         to update the application attributes.
     -->
-    <iq:application id="6788551e-2bc7-11ee-be56-0242ac120002" type="datafield" name="@Strings.AppName" entry="BikePowerDerivedFieldsApp" launcherIcon="@Drawables.LauncherIcon" version="1.0.5" minApiLevel="1.2.0">
+    <iq:application id="6788551e-2bc7-11ee-be56-0242ac120002" type="datafield" name="@Strings.AppName" entry="BikePowerDerivedFieldsApp" launcherIcon="@Drawables.LauncherIcon" version="1.0.6" minApiLevel="1.2.0">
         <!--
             Use the following from the Visual Studio Code comand palette to edit
             the build targets:
@@ -50,6 +50,7 @@
             <iq:product id="edgeexplore"/>
             <iq:product id="edgeexplore2"/>
             <iq:product id="enduro"/>
+            <iq:product id="enduro3"/>
             <iq:product id="epix"/>
             <iq:product id="epix2"/>
             <iq:product id="epix2pro42mm"/>
@@ -76,7 +77,14 @@
             <iq:product id="fenix7x"/>
             <iq:product id="fenix7xpro"/>
             <iq:product id="fenix7xpronowifi"/>
+            <iq:product id="fenix843mm"/>
+            <iq:product id="fenix847mm"/>
+            <iq:product id="fenix8solar47mm"/>
+            <iq:product id="fenix8solar51mm"/>
             <iq:product id="fenixchronos"/>
+            <iq:product id="fenixe"/>
+            <iq:product id="fr165"/>
+            <iq:product id="fr165m"/>
             <iq:product id="fr230"/>
             <iq:product id="fr235"/>
             <iq:product id="fr245"/>
