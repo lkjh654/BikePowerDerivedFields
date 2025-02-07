@@ -14,8 +14,8 @@ class BikePowerDerivedFieldsApp extends Application.AppBase {
     function onStop(state as Dictionary?) as Void {
     }
 
-    function getInitialView() as Array<Views or InputDelegates>? {
-        return [ new BikePowerDerivedFieldsView() ] as Array<Views or InputDelegates>;
+    function getInitialView() {
+        return [ new BikePowerDerivedFieldsView() ];
     }
 
 }
